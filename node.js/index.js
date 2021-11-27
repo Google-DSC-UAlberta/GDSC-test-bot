@@ -37,4 +37,4 @@ client.on('messageCreate', msg => {
 });
 
 //make sure this line is the last line
-client.login('<token_here>'); //login bot using token
+client.login('OTEzODIzNjQyNDc4MDU1NDM2.YaEGlg.IN6Pe4XODus-iQC_oWHGC5lK4tI'); //login bot using token
