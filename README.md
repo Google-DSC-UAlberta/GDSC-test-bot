@@ -1,7 +1,7 @@
-## Requirements
+### Requirements
 * python 3.6 or above
 
-## Installation 
+### Installation 
 1. Create a new discord bot following [this instruction](https://discordpy.readthedocs.io/en/stable/discord.html)
 2. clone this repository
 3. Run `pip3 install -r requirements.txt` inside the repository root folder
