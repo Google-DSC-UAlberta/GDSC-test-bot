@@ -1,5 +1,5 @@
 import os
-
+import sqlite3
 # https://discordpy.readthedocs.io/en/stable/api.html#
 import discord
 
@@ -22,6 +22,13 @@ class DemoClient(discord.Client):
             "test": "Welcome to UofA GDSC!",
             "code": "```python\n print('showing how python snippets can be displayed on Discord!')```"
         }
+        self.connection = sqlite3.connect("test.db")
+        self.cursor = self.connection.cursor()
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS users(
+            name CHAR(30) PRIMARY KEY,
+            password CHAR(30));
+        """)
+        self.connection.commit()
 
     async def on_ready(self):
         print(f'{client.user} has connected to Discord!')
@@ -52,6 +59,19 @@ class DemoClient(discord.Client):
                 self.timer_flag = False
             else:
                 await message.reply("Timer is not started! Enter \"timer\" to start a timer")
+        elif content.startswith("create"):
+            # create a new table
+            msg = content.split(" ")
+            self.cursor.execute("""INSERT INTO users(name, password) VALUES(?, ?)""", (msg[1], msg[2]))
+            self.connection.commit()
+        elif content.startswith("exist"):
+            msg = content.split(" ")
+            self.cursor.execute("""SELECT * FROM users WHERE name = ?""", (msg[1],))
+            result = self.cursor.fetchall()
+            if len(result) > 0:
+                await message.reply("User exists!")
+            else:
+                await message.reply("User does not exist!")
 
 client = DemoClient()
 client.run(TOKEN)
